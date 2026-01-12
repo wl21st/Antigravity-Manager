@@ -7,6 +7,7 @@ Antigravity Tools is a Tauri desktop application (Rust backend + React/TypeScrip
 ## Build, Lint, and Test Commands
 
 ### Frontend (TypeScript/React)
+
 ```bash
 # Development
 npm run dev              # Start Vite dev server (port 1420)
@@ -23,6 +24,7 @@ npm run tauri           # Access Tauri CLI (e.g., npm run tauri build)
 ```
 
 ### Backend (Rust)
+
 ```bash
 # Build
 cargo build --release          # Production build
@@ -41,6 +43,7 @@ cargo clippy -- -D warnings     # Treat warnings as errors
 ```
 
 ### Running a Single Test
+
 ```bash
 # Run tests in a specific file
 cargo test --test comprehensive
@@ -60,6 +63,7 @@ cargo test --release
 ### Frontend (TypeScript/React)
 
 #### Import Organization
+
 ```typescript
 // Order: 1. External libraries, 2. Local modules
 import { useState, useEffect } from 'react';
@@ -76,6 +80,7 @@ import { cn } from '../utils/cn';
 ```
 
 #### Component Structure
+
 - Use functional components with hooks (no class components)
 - Extract components into dedicated files under `src/components/`
 - Use TypeScript interfaces for props
@@ -101,6 +106,7 @@ function Accounts() {
 ```
 
 #### State Management (Zustand)
+
 - All state stores in `src/stores/` using Zustand
 - Define interface for state and actions
 - Use `create()` pattern with async actions
@@ -148,6 +154,7 @@ export const useAccountStore = create<AccountState>((set, get) => ({
 ```
 
 #### API/Service Call Patterns
+
 - Service layer wraps Tauri `invoke()` calls
 - All services in `src/services/`
 - Use type-safe function signatures
@@ -169,6 +176,7 @@ const accounts = await accountService.listAccounts();
 ```
 
 #### Styling (Tailwind + DaisyUI)
+
 - Use Tailwind utility classes directly
 - Use `cn()` utility for conditional class merging
 - DaisyUI components for UI elements
@@ -193,6 +201,7 @@ import { cn } from '../utils/cn';
 ```
 
 #### Error Handling
+
 - Try-catch blocks in async functions
 - Store errors in state
 - Log errors with console.error
@@ -210,6 +219,7 @@ try {
 ```
 
 #### i18n (Internationalization)
+
 - Use `useTranslation()` hook from `react-i18next`
 - Translation keys in `src/locales/en.json` and `src/locales/zh.json`
 - Access with `t('key.path')`
@@ -234,6 +244,7 @@ function Component() {
 ```
 
 #### TypeScript Configuration
+
 - Strict mode enabled (`"strict": true`)
 - No unused locals/parameters allowed
 - No implicit any
@@ -251,6 +262,7 @@ function Component() {
 ### Backend (Rust)
 
 #### Import Organization
+
 ```rust
 // Order: std library → third-party crates → local modules
 use std::sync::{Arc, Mutex};
@@ -265,6 +277,7 @@ use crate::proxy::handlers;
 ```
 
 #### Error Handling
+
 - Use `thiserror` for error types (NOT `anywhere`)
 - Define `AppError` enum in `src-tauri/src/error.rs`
 - Implement `Serialize` for Tauri compatibility
@@ -301,6 +314,7 @@ pub async fn list_accounts() -> Result<Vec<Account>, String> {
 ```
 
 #### Struct/Module Organization
+
 ```rust
 // Data models with serde derives
 #[derive(Debug, Clone, Serialize, Deserialize)]
@@ -335,6 +349,7 @@ pub use token::TokenData;
 ```
 
 #### Async/Await Patterns
+
 ```rust
 use tokio::sync::Semaphore;
 use futures::future::join_all;
@@ -364,6 +379,7 @@ tokio::time::sleep(Duration::from_millis(100)).await;
 ```
 
 #### Tauri Command Patterns
+
 ```rust
 #[tauri::command]
 pub async fn list_accounts() -> Result<Vec<Account>, String> {
@@ -391,6 +407,7 @@ pub async fn start_proxy_service(
 ```
 
 #### Database/File Operations
+
 - JSON files for account storage in `~/.antigravity/accounts/`
 - SQLite for V1 database import
 - Use `serde_json` for serialization
@@ -419,6 +436,7 @@ pub fn load_account(id: &str) -> Result<Account, String> {
 ```
 
 #### Logging (tracing)
+
 ```rust
 use tracing::{info, error, warn, debug, trace};
 
@@ -436,6 +454,7 @@ modules::logger::log_info("Account added successfully");
 ### Naming Conventions
 
 #### TypeScript/React
+
 - **Components**: PascalCase (`AccountTable.tsx`, `AddAccountDialog.tsx`)
 - **Hooks**: camelCase starting with `use` (`useAccountStore.ts`, `useProxyModels.tsx`)
 - **Services**: camelCase (`accountService.ts`, `configService.ts`)
@@ -444,6 +463,7 @@ modules::logger::log_info("Account added successfully");
 - **Constants**: UPPER_SNAKE_CASE (`MAX_CONCURRENT`, `DEFAULT_PORT`)
 
 #### Rust
+
 - **Structs/Enums**: PascalCase (`Account`, `ProxyConfig`, `AppError`)
 - **Functions/Methods**: snake_case (`list_accounts`, `fetch_quota`)
 - **Modules**: snake_case (`mod account`, `mod proxy_handlers`)
